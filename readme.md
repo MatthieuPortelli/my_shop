@@ -3,6 +3,8 @@
 ## Correctifs  
 - Index  
   - Gestion du refus des cookies à modifier  
+- Connexion  
+  - Ajout Captcha  
 
 ## Fonctionnalités  
 [x] S'inscrire, valider la confirmation par email, se connecter, se déconnecter  
