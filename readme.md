@@ -4,8 +4,8 @@
 - Index  
   - Gestion du refus des cookies à modifier  
 - Connexion  
-  - Ajout Captcha fonctionnel  
-  - Remettre en place la confirmation par email (informations dans le .env)
+  - Remettre en place la confirmation par email (informations dans le .env)  
+  - Cacher les clefs captcha  
 
 ## Fonctionnalités  
 [x] S'inscrire, valider la confirmation par email, se connecter, se déconnecter  
