@@ -1,0 +1,65 @@
+{% extends "shop/base.html" %}
+
+{% block content %}
+
+<!-- ORDER CONFIRM -->
+<div class="container">
+    <div class="row mt-5 mb-5">
+        <div class="card shadow text-center">
+            <!-- MESSAGES -->
+            {% include 'shop/alert.html' %}
+
+            <!-- Récapitulatif -->
+            <div class="row mt-3">
+                <div>
+                    <h2>Récapitulatif des produits</h2>
+                    <p>Nombre d'articles : <b>{{ total_number_products }}</b></p>
+                    <p class="m-0">Total TTC : <b>{{ total_price | floatformat }}€</b></p>
+                </div>
+            </div>
+
+            <hr class="mt-4">
+
+            <!-- Adresse -->
+            <h2>Adresse de livraison</h2>
+
+            <form method="POST" class="mt-3">
+                {% csrf_token %}
+
+                <div class="row">
+                    <div class="form-group col-12 col-md-6">
+                        <input type="text" id="lastname" name="lastname" class="form-control" placeholder="Nom">
+                    </div>
+
+                    <div class="form-group col-12 col-md-6 mt-3 mt-md-0">
+                        <input type="text" id="firstname" name="firstname" class="form-control" placeholder="Prénom">
+                    </div>
+                </div>
+
+                <div class="form-group col-12 mt-3">
+                    <input type="text" id="street" name="street" class="form-control" placeholder="Adresse">
+                </div>
+
+                <div class="row mt-3">
+                    <div class="form-group col-12 col-md-6">
+                        <input type="text" id="postalcode" name="postalcode" class="form-control" placeholder="Code Postal">
+                    </div>
+
+                    <div class="form-group col-12 col-md-6 mt-3 mt-md-0">
+                        <input type="text" id="city" name="city" class="form-control" placeholder="Ville">
+                    </div>
+                </div>
+
+                <hr class="mt-4">
+
+                <button type="submit" class="btn btn-primary mt-2 mb-4">Valider la commande</button>
+            </form>
+        </div>
+
+        <div class="text-center mt-3">
+            <a href="{% url 'cart' %}" class="btn btn-dark mt-3">Retour au panier</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

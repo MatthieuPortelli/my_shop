@@ -1,0 +1,9 @@
+{% autoescape off %}
+Bienvenue sur MyShop,
+
+Veuillez cliquer sur le lien suivant pour confirmer votre adresse e-mail:
+
+{{ protocol }}://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+
+Merci
+{% endautoescape %}

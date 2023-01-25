@@ -1,0 +1,70 @@
+{% extends "shop/base.html" %}
+
+{% block content %}
+
+<!-- SEARCH -->
+<div class="row mt-3">
+    <div class="col-md-12">
+        <form class="card card-sm shadow">
+            <div class="card-body row no-gutters align-items-center">
+                <div class="col">
+                    <input type="search" name="item-name" placeholder="Entrez le nom du produit" class="form-control form-control-borderless">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Rechercher</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MESSAGES -->
+{% include 'shop/alert.html' %}
+
+<!-- CATEGORIES -->
+<div class="row mt-3 mb-4">
+    <a href="{% url 'categories' %}" class="text-center link-primary text-decoration-none mt-1">Toutes les catégories</a>
+
+    {% for category in category_object %}
+        <div class="col-12 col-sm-6 col-md-4 col-lg-2 mt-2">
+            <div class="card shadow">
+                <p class="text-center mb-1">{{ category.name }}</p>
+                <a href="{% url 'categories-products' category.slug %}">
+                    <img class="card-img-top border-bottom" src="{{ category.image }}" alt="category-image">
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<hr>
+
+<!-- PRODUCTS -->
+<div class="row mt-3">
+    <a href="{% url 'products' %}" class="text-center link-primary text-decoration-none mt-1">Tous les produits</a>
+
+    {% for product in product_object %}
+        <div class="col-12 col-sm-6 col-md-4 col-lg-2 mt-2">
+            <div class="card shadow">
+                <a href="{{ product.get_absolute_url }}">
+                    <img class="card-img-top border-bottom" src="{{ product.image }}" alt="product-image">
+                </a>
+                <div class="card-body">
+                    <div class="card-name">{{ product.name }}</div>
+                    <div class="card-price text-danger">{{ product.price | floatformat }}€</div>
+                    <div class="text-center">
+                        {% if user.is_authenticated %}
+                            {% if product.stock == 0 %}
+                                <button type="button" class="btn btn-primary mt-2" disabled>Rupture de stock</button>
+                            {% else %}
+                                <a href="{% url 'add-to-cart' product.slug %}" class="btn btn-primary mt-2">Ajouter au panier</a>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

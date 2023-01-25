@@ -1,0 +1,66 @@
+{% extends "shop/base.html" %}
+
+{% load mathfilters %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row mt-3 mb-5">
+        <h1>Mon compte</h1>
+
+        <div class="row">
+            <table class="table table-striped table-bordered mt-3">
+                <tbody>
+                    <tr>
+                        <th scope="row" class="col-md-4">Nom d'utilisateur</th>
+                        <td>{{ user.username }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="col-md-4">Email</th>
+                        <td>{{ user.email }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="col-md-4">Date d'inscription</th>
+                        <td>{{ user.date_joined }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <hr class="mt-3">
+
+        {% if orders %}
+            <h2>Mes commandes</h2>
+
+            <div class="row p-0">
+                {% for order in orders %}
+                    <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                        <table class="table table-striped table-bordered mt-3">
+                            <tbody>
+                                <tr>
+                                    <th scope="row" class="col-md-4">Produit</th>
+                                    <td>{{ order.product.name }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="col-md-4">Quantité</th>
+                                    <td>{{ order.quantity }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="col-md-4">Montant</th>
+                                    <td>{{ order.quantity|mul:order.product.price | floatformat }}€</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="col-md-4">Date</th>
+                                    <td>{{ order.ordered_date }}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

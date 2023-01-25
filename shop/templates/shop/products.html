@@ -1,0 +1,56 @@
+{% extends "shop/base.html" %}
+
+{% block content %}
+
+<!-- ALL PRODUCTS -->
+<div class="row mt-3 mb-5">
+    <h1>Produits</h1>
+
+    {% for product in product_object %}
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mt-3">
+            <div class="card shadow">
+                <a href="{{ product.get_absolute_url }}">
+                    <img class="card-img-top border-bottom" src="{{ product.image }}" alt="product-image">
+                </a>
+                <div class="card-body">
+                    <div class="card-name">{{ product.name }}</div>
+                    <div class="card-price text-danger">{{ product.price | floatformat }}€</div>
+                    <div class="text-center">
+                        {% if user.is_authenticated %}
+                            {% if product.stock == 0 %}
+                                <button type="button" class="btn btn-primary mt-2" disabled>Rupture de stock</button>
+                            {% else %}
+                                <a href="{% url 'add-to-cart' product.slug %}" class="btn btn-primary mt-2">Ajouter au panier</a>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    <!-- PAGINATION -->
+    <div class="d-flex mt-2">
+        <div class="mx-auto">
+            <ul class="pagination">
+                {% if product_object.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link text-dark" href="?page={{ product_object.previous_page_number }}">Précédent</a>
+                    </li>
+                {% endif %}
+
+                    <li class="page-item active">
+                        <a class="page-link text-light bg-dark border-dark" href="?page={{ product_object.number }}">{{ product_object.number }}</a>
+                    </li>
+
+                {% if product_object.has_next %}
+                    <li class="page-item">
+                        <a class="page-link text-dark" href="?page={{ product_object.next_page_number }}">Suivant</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

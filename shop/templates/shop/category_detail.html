@@ -1,0 +1,36 @@
+{% extends "shop/base.html" %}
+
+{% block content %}
+
+<!-- CATEGORY DETAIL -->
+<div class="row mt-3 mb-5">
+    <h1>{{ category_name.name }}</h1>
+
+    <!-- CATEGORY PRODUCTS -->
+    <div class="row mt-3">
+        {% for product in products %}
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="card shadow">
+                    <a href="{{ product.get_absolute_url }}">
+                        <img class="card-img-top border-bottom" src="{{ product.image }}" alt="product-image">
+                    </a>
+                    <div class="card-body">
+                        <div class="card-name">{{ product.name }}</div>
+                        <div class="card-price text-danger">{{ product.price | floatformat }}€</div>
+                        <div class="text-center">
+                            {% if user.is_authenticated %}
+                                {% if product.stock == 0 %}
+                                    <button type="button" class="btn btn-primary mt-2" disabled>Rupture de stock</button>
+                                {% else %}
+                                    <a href="{% url 'add-to-cart' product.slug %}" class="btn btn-primary mt-2">Ajouter au panier</a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
