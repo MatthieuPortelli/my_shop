@@ -1,9 +1,12 @@
 from pathlib import Path
 from django.contrib import messages
 from decouple import config
-from . info import *
-
+import environ
 import os
+
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -36,6 +39,7 @@ INSTALLED_APPS = [
     'account',
     'mathfilters',
     'django_extensions',
+    'captcha',
 ]
 
 MIDDLEWARE = [
@@ -130,15 +134,36 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # MAIL CONFIRMATION SETTINGS
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = env('EMAIL_HOST')
+# EMAIL_FROM = env('EMAIL_FROM')
+# EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+# EMAIL_PORT = env('EMAIL_PORT')
+# EMAIL_USE_TLS = env('EMAIL_USE_TLS')
+# PASSWORD_RESET_TIMEOUT = env('PASSWORD_RESET_TIMEOUT')
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = EMAIL_HOST
-EMAIL_FROM = EMAIL_FROM
-EMAIL_HOST_USER = EMAIL_HOST_USER
-EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
-EMAIL_PORT = EMAIL_PORT
-EMAIL_USE_TLS = EMAIL_USE_TLS
-PASSWORD_RESET_TIMEOUT = PASSWORD_RESET_TIMEOUT
+# Utilisation de GMAIL
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_FROM = 'mywebsite.python@gmail.com'
+EMAIL_HOST_USER = 'mywebsite.python@gmail.com'
+EMAIL_HOST_PASSWORD = 'jzimuimwmqhfcxhq'
+EMAIL_PORT = 587
+# Indique si une connexion TLS (sécurisée) doit être utilisée pour le dialogue avec le serveur SMTP
+EMAIL_USE_TLS = True
+# Délai avant expiration du token
+PASSWORD_RESET_TIMEOUT = 14400
 
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
+
+# CAPTCHA
+# RECAPTCHA_PUBLIC_KEY = env('RECAPTCHA_PUBLIC_KEY')
+# RECAPTCHA_PRIVATE_KEY = env('RECAPTCHA_PUBLIC_KEY')
+
+RECAPTCHA_PUBLIC_KEY = '6LffdyckAAAAACH9sqvPOM0UKwj7fMlWeXXwEr2b'
+RECAPTCHA_PRIVATE_KEY = '6LffdyckAAAAANO2s0YdAd_0dblXW8Njv_Ah5sTM'
+
+GOOGLE_RECAPTCHA_SECRET_KEY = '6LffdyckAAAAANO2s0YdAd_0dblXW8Njv_Ah5sTM'

@@ -9,8 +9,8 @@ from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
-
-from shop.models import Order, Category, Address
+from shop.models import Order, Category
+from .forms import SignUpForm
 from .token import account_activation_token
 import re
 
@@ -59,11 +59,12 @@ def signup(request):
     if request.user.is_authenticated:
         return redirect('/')
 
+    # Au submit du form
     if request.method == "POST":
         # Je récupère les valeurs des inputs
         username = request.POST['username']
         email = request.POST['email']
-        password = request.POST['password']
+        password1 = request.POST['password1']
         password2 = request.POST['password2']
 
         # Controle username
@@ -89,36 +90,51 @@ def signup(request):
             return redirect('signup')
 
         # Controle password
-        if password == '' or password is None:
+        if password1 == '' or password1 is None:
             messages.error(request, "Veuillez indiquer un mot de passe.")
             return redirect('signup')
-        if len(password) < 3:
+        if len(password1) < 3:
             messages.error(request, "Le mot de passe doit comporter au minimum 3 caractères.")
             return redirect('signup')
-        if password != password2:
+        if password1 != password2:
             messages.error(request, "Les mots de passe sont différents.")
             return redirect('signup')
 
-        # Création de l'utilisateur
-        user = User.objects.create_user(username=username,
-                                        email=email,
-                                        password=password)
-        # Je veux pouvoir activer le compte via un mail
-        user.is_active = False
-        # Je sauvegarde
-        user.save()
+        form = SignUpForm(request.POST)
 
-        # Fonction d'activation du compte par email
-        activateEmail(request, user, email)
+        if form.is_valid():
+            # Création de l'utilisateur
+            user = User.objects.create_user(username=username,
+                                            email=email,
+                                            password=password1)
 
-        # Redirection sur l'accueil en attente de la vérification par mail
-        return redirect('/')
+            # Je veux pouvoir activer le compte via un mail
+            # --- Désactivé le temps de gérer le captcha ---
+            # user.is_active = False
+            user.is_active = True
+            # Je sauvegarde
+            user.save()
+
+            # Fonction d'activation du compte par email
+            # --- Désactivé le temps de gérer le captcha ---
+            # activateEmail(request, user, email)
+
+            # Connection de l'utilisateur
+            login(request, user)
+
+            return redirect('/')
+        else:
+            print('INVALID')
+            messages.error(request, "Veuillez cocher la case reCAPTCHA.")
+    else:
+        form = SignUpForm()
 
     # Je récupère toutes les catégories
     category_object = Category.objects.all()
 
     context = {
         'category_object': category_object,
+        'form': form,
     }
 
     return render(request, 'account/signup.html', context)
