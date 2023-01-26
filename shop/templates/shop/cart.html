@@ -5,18 +5,30 @@
 {% block content %}
 
 <!-- CART -->
-<div class="row mt-5 mb-5">
+<div class="mt-5 mb-5">
     {% if orders %}
-        <div class="d-flex justify-content-between align-items-center">
-            <h1 class="col-12 col-md-3">Mon panier</h1>
+<!--        <div class="row d-flex justify-content-between align-items-center">-->
+<!--            <h1 class="col-12 col-md-3">Mon panier</h1>-->
 
-            <p class="col-12 col-md-3 m-0">Nombre d'articles : <b>{{ total_number_products }}</b></p>
-            <p class="col-12 col-md-3 m-0">Total TTC : <b>{{ total_price | floatformat }}€</b></p>
+<!--            <p class="col-12 col-md-2 m-0">Nombre d'articles : <b>{{ total_number_products }}</b></p>-->
+<!--            <p class="col-12 col-md-2 m-0">Total TTC : <b>{{ total_price | floatformat }}€</b></p>-->
 
-            <div class="col-12 col-md-3">
-                <a href="{% url 'delete-cart' %}" class="btn border border-dark">Supprimer le panier</a>
-                <a href="{% url 'address-cart' %}" class="btn btn-primary">Valider le panier</a>
-            </div>
+<!--            <div class="col-12 col-md-3">-->
+<!--                <div class="row d-flex justify-content-between align-items-center">-->
+<!--                    <div class="col-12 col-lg-6"><a href="{% url 'delete-cart' %}" class="btn border border-dark text-nowrap">Supprimer le panier</a></div>-->
+<!--                    <div class="col-12 col-lg-6"><a href="{% url 'address-cart' %}" class="btn btn-primary text-nowrap">Valider le panier</a></div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+        <div class="row d-flex justify-content-between align-items-center">
+            <h1 class="col-12 col-lg-3">Mon panier</h1>
+
+            <p class="col-12 col-lg-3 m-0">Nombre d'articles : <b>{{ total_number_products }}</b></p>
+            <p class="col-12 col-lg-2 m-0">Total TTC : <b>{{ total_price | floatformat }}€</b></p>
+
+            <div class="col-12 col-lg-2 mt-2 mt-lg-0 d-flex justify-content-lg-end"><a href="{% url 'delete-cart' %}" class="btn border border-dark text-nowrap">Supprimer le panier</a></div>
+            <div class="col-12 col-lg-2 mt-2 mt-lg-0 d-flex justify-content-lg-end"><a href="{% url 'address-cart' %}" class="btn btn-primary text-nowrap">Valider le panier</a></div>
         </div>
 
         {% for order in orders %}
