@@ -93,8 +93,8 @@ def signup(request):
         if password1 == '' or password1 is None:
             messages.error(request, "Veuillez indiquer un mot de passe.")
             return redirect('signup')
-        if len(password1) < 3:
-            messages.error(request, "Le mot de passe doit comporter au minimum 3 caractères.")
+        if not validate_password(password1):
+            messages.error(request, "Le mot de passe doit contenir au minimum 8 caractères, au moins une majuscule, une minuscule, un chiffre et un caractère spécial.")
             return redirect('signup')
         if password1 != password2:
             messages.error(request, "Les mots de passe sont différents.")
@@ -196,6 +196,11 @@ def custom_logout(request):
 def validate_email_address(email_address):
     # Validation email REGEX
     return re.search(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+', email_address)
+
+
+def validate_password(password):
+    # Validation email REGEX
+    return re.search(r'(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}', password)
 
 
 @login_required(login_url='login')
