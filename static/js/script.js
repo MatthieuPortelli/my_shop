@@ -10,6 +10,7 @@ let acceptCookieBtn = document.querySelector(".btn.accept")
 
 cancelCookieBtn.addEventListener("click", function (){
     cookieModal.classList.remove("active")
+    localStorage.setItem("cookieAccepted", "no")
 })
 
 acceptCookieBtn.addEventListener("click", function (){
@@ -19,7 +20,7 @@ acceptCookieBtn.addEventListener("click", function (){
 
 setTimeout(function (){
     let cookieAccepted = localStorage.getItem("cookieAccepted")
-    if (cookieAccepted != "yes"){
+    if (cookieAccepted != "yes" && cookieAccepted != "no"){
         cookieModal.classList.add("active")
     }
 }, 2000)

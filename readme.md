@@ -1,8 +1,6 @@
 # MyShop  
 
 ## Correctifs  
-- Index  
-  - Gestion du refus des cookies à modifier  
 - Connexion  
   - Remettre en place la confirmation par email (informations dans le .env)  
 
